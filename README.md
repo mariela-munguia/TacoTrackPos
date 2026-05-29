@@ -5,9 +5,9 @@
 ###  A Java Point-of-Sale Ordering System for a Taco Shop 🌮
 
 <p>
-  <span style="color:red;"><strong>Red</strong></span> •
-  <span style="color:white;"><strong>White</strong></span> •
-  <span style="color:green;"><strong>Green</strong></span>
+  <span style="color:red;"><strong></strong></span> •
+  <span style="color:white;"><strong></strong></span> •
+  <span style="color:green;"><strong></strong></span>
 </p>
 
 ```text
