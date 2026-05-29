@@ -1,8 +1,8 @@
 <div align="center">
 
-# 🇲🇽 TacoTrack POS 🇲🇽
+# TacoTrack POS 
 
-### 🌮 A Java Point-of-Sale Ordering System for a Taco Shop 🌮
+###  A Java Point-of-Sale Ordering System for a Taco Shop 🌮
 
 <p>
   <span style="color:red;"><strong>Red</strong></span> •
