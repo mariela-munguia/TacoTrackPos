@@ -1,0 +1,6 @@
+TacoTrack POS Receipt
+=====================
+1) 3-Taco Plate on Corn - $11.00
+  Toppings: Carne Asada, Onions, Salsa Verde
+---------------------
+Total: $11.00

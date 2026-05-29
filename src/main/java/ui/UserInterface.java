@@ -15,25 +15,34 @@ import java.util.List;
 import java.util.Scanner;
 
 public class UserInterface {
+    private static final String RED = "\u001B[31m";
+    private static final String WHITE = "\u001B[37m";
+    private static final String GREEN = "\u001B[32m";
+    private static final String RESET = "\u001B[0m";
+
     private Scanner scanner = new Scanner(System.in);
 
     public void display() {
         boolean running = true;
 
         while (running) {
-            System.out.println("\n=== TacoTrack POS ===");
-            System.out.println("1) New Order");
-            System.out.println("2) View Menu");
+            printLogo();
+
+            System.out.println("1) View Menu");
+            System.out.println("2) New Order");
             System.out.println("0) Exit");
 
             int choice = readInt("Choose an option: ");
 
             switch (choice) {
                 case 1:
-                    orderScreen();
+                    showMenu();
+                    if (readYesNo("Ready to start an order? (y/n): ")) {
+                        orderScreen();
+                    }
                     break;
                 case 2:
-                    showMenu();
+                    orderScreen();
                     break;
                 case 0:
                     running = false;
@@ -43,6 +52,19 @@ public class UserInterface {
                     System.out.println("Invalid option.");
             }
         }
+    }
+
+    private void printLogo() {
+        System.out.println();
+        System.out.println(RED + "████████╗ █████╗  ██████╗ ██████╗" + RESET);
+        System.out.println(WHITE + "╚══██╔══╝██╔══██╗██╔════╝██╔═══██╗" + RESET);
+        System.out.println(GREEN + "   ██║   ███████║██║     ██║   ██║" + RESET);
+        System.out.println(RED + "   ██║   ██╔══██║██║     ██║   ██║" + RESET);
+        System.out.println(WHITE + "   ██║   ██║  ██║╚██████╗╚██████╔╝" + RESET);
+        System.out.println(GREEN + "   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═════╝" + RESET);
+        System.out.println();
+        System.out.println(RED + "        Taco" + WHITE + "Track " + GREEN + "POS" + RESET);
+        System.out.println("==================================");
     }
 
     private void showMenu() {
@@ -78,6 +100,7 @@ public class UserInterface {
         System.out.println("Medium Drink: $2.50");
         System.out.println("Large Drink: $3.00");
         System.out.println("Chips & Salsa: $1.50");
+        System.out.println();
     }
 
     private void orderScreen() {
