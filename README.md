@@ -363,7 +363,3 @@ This project uses object-oriented programming concepts:
 - Encapsulation with private fields and public methods
 - Methods to separate user interface logic, pricing logic, and receipt logic
 - Multiple objects working together to build a complete order
-
-## Author
-
-Mariela Amaya
