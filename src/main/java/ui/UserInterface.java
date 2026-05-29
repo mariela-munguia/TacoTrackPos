@@ -23,6 +23,7 @@ public class UserInterface {
         while (running) {
             System.out.println("\n=== TacoTrack POS ===");
             System.out.println("1) New Order");
+            System.out.println("2) View Menu");
             System.out.println("0) Exit");
 
             int choice = readInt("Choose an option: ");
@@ -30,6 +31,9 @@ public class UserInterface {
             switch (choice) {
                 case 1:
                     orderScreen();
+                    break;
+                case 2:
+                    showMenu();
                     break;
                 case 0:
                     running = false;
@@ -39,6 +43,41 @@ public class UserInterface {
                     System.out.println("Invalid option.");
             }
         }
+    }
+
+    private void showMenu() {
+        System.out.println("\n=== TacoTrack POS Menu ===");
+
+        System.out.println("\nBase Prices:");
+        System.out.println("Single Taco: $3.50");
+        System.out.println("3-Taco Plate: $9.00");
+        System.out.println("Burrito: $8.50");
+
+        System.out.println("\nShell Options:");
+        System.out.println("Corn, Flour, Hard Shell, Bowl");
+
+        System.out.println("\nMeats:");
+        System.out.println("Carne Asada, Al Pastor, Carnitas, Pollo, Chorizo, Pescado");
+        System.out.println("Single: $1.00 | 3-Taco: $2.00 | Burrito: $3.00");
+        System.out.println("Extra Meat: $0.50 | $1.00 | $1.50");
+
+        System.out.println("\nCheeses:");
+        System.out.println("Queso Fresco, Oaxaca, Cotija, Cheddar");
+        System.out.println("Single: $0.75 | 3-Taco: $1.50 | Burrito: $2.25");
+        System.out.println("Extra Cheese: $0.30 | $0.60 | $0.90");
+
+        System.out.println("\nIncluded Toppings:");
+        System.out.println("Lettuce, Cilantro, Onions, Tomatoes, Jalapenos, Radishes");
+        System.out.println("Pico de Gallo, Guacamole, Corn");
+
+        System.out.println("\nIncluded Sauces:");
+        System.out.println("Salsa Verde, Salsa Roja, Chipotle, Habanero, Mild, Extra Hot");
+
+        System.out.println("\nOther Products:");
+        System.out.println("Small Drink: $2.00");
+        System.out.println("Medium Drink: $2.50");
+        System.out.println("Large Drink: $3.00");
+        System.out.println("Chips & Salsa: $1.50");
     }
 
     private void orderScreen() {
@@ -68,8 +107,7 @@ public class UserInterface {
                     order.addItem(addChipsAndSalsa());
                     break;
                 case 4:
-                    checkout(order);
-                    ordering = false;
+                    ordering = !checkout(order);
                     break;
                 case 5:
                     removeItem(order);
@@ -129,7 +167,6 @@ public class UserInterface {
                 adding = false;
             } else if (choice >= 1 && choice <= choices.size()) {
                 Toppings selected = choices.get(choice - 1);
-
                 boolean extra = false;
 
                 if (selected.getCategory() == ToppingsCategory.MEAT
@@ -183,12 +220,12 @@ public class UserInterface {
         }
     }
 
-    private void checkout(Order order) {
+    private boolean checkout(Order order) {
         System.out.println("\n=== Checkout ===");
 
         if (order.getItemCount() == 0) {
             System.out.println("You cannot checkout with an empty order.");
-            return;
+            return false;
         }
 
         System.out.println(order);
@@ -201,6 +238,8 @@ public class UserInterface {
         } else {
             System.out.println("Order canceled.");
         }
+
+        return true;
     }
 
     private TacoSize chooseTacoSize() {
@@ -208,6 +247,7 @@ public class UserInterface {
 
         while (true) {
             System.out.println("\nItem size:");
+
             for (int i = 0; i < sizes.length; i++) {
                 System.out.println((i + 1) + ") " + sizes[i].getDisplayName());
             }
@@ -227,6 +267,7 @@ public class UserInterface {
 
         while (true) {
             System.out.println("\nSelect your shell:");
+
             for (int i = 0; i < tortillas.length; i++) {
                 System.out.println((i + 1) + ") " + tortillas[i].getDisplayName());
             }
@@ -246,6 +287,7 @@ public class UserInterface {
 
         while (true) {
             System.out.println("\nDrink size:");
+
             for (int i = 0; i < sizes.length; i++) {
                 System.out.println((i + 1) + ") " + sizes[i].getDisplayName());
             }
