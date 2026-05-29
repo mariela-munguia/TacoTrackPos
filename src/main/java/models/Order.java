@@ -8,21 +8,40 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Order {
-    private ArrayList<OrderItem> items;
+    private ArrayList<Object> items;
 
     public Order() {
         items = new ArrayList<>();
     }
 
-    public void addItem(OrderItem item) {
-        items.add(0, item); // newest first
+    public void addItem(Object item) {
+        items.add(0, item);
+    }
+
+    public int getItemCount() {
+        return items.size();
+    }
+
+    public boolean removeItem(int index) {
+        if (index >= 0 && index < items.size()) {
+            items.remove(index);
+            return true;
+        }
+
+        return false;
     }
 
     public double getTotal() {
         double total = 0;
 
-        for (OrderItem item : items) {
-            total += item.getPrice();
+        for (Object item : items) {
+            if (item instanceof Tacos) {
+                total += ((Tacos) item).getPrice();
+            } else if (item instanceof Drink) {
+                total += ((Drink) item).getPrice();
+            } else if (item instanceof ChipsAndSalsa) {
+                total += ((ChipsAndSalsa) item).getPrice();
+            }
         }
 
         return total;
@@ -31,6 +50,7 @@ public class Order {
     public void saveReceipt() {
         try {
             File folder = new File("receipts");
+
             if (!folder.exists()) {
                 folder.mkdirs();
             }
@@ -43,7 +63,6 @@ public class Order {
 
             writer.write(toString());
             writer.close();
-
         } catch (IOException e) {
             System.out.println("Error saving receipt: " + e.getMessage());
         }

@@ -1,14 +1,10 @@
 package models;
 
-public class ChipsAndSalsa implements OrderItem {
+public class ChipsAndSalsa {
     private String salsaType;
 
     public ChipsAndSalsa(String salsaType) {
         this.salsaType = salsaType;
-    }
-
-    public String getName() {
-        return "Chips & Salsa";
     }
 
     public double getPrice() {
@@ -16,6 +12,7 @@ public class ChipsAndSalsa implements OrderItem {
     }
 
     public String toString() {
-        return "Chips & Salsa (" + salsaType + ") - $" + String.format("%.2f", getPrice());
+        return "Chips & Salsa (" + salsaType + ") - $"
+                + String.format("%.2f", getPrice());
     }
 }

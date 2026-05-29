@@ -1,13 +1,14 @@
 package ui;
 
-import models.Drink;
+import enums.DrinkSize;
 import enums.TacoSize;
+import enums.Toppings;
 import enums.ToppingsCategory;
 import enums.Tortilla;
 import models.ChipsAndSalsa;
+import models.Drink;
 import models.Order;
 import models.Tacos;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,30 +47,32 @@ public class UserInterface {
 
         while (ordering) {
             System.out.println("\n=== Order Screen ===");
+            System.out.println(order);
             System.out.println("1) Add Taco/Burrito");
             System.out.println("2) Add Drink");
             System.out.println("3) Add Chips & Salsa");
             System.out.println("4) Checkout");
+            System.out.println("5) Remove Item");
             System.out.println("0) Cancel Order");
 
             int choice = readInt("Choose an option: ");
 
             switch (choice) {
                 case 1:
-                    Tacos taco = addTaco();
-                    order.addItem(taco);
+                    order.addItem(addTaco());
                     break;
                 case 2:
-                    Drink drink = addDrink();
-                    order.addItem(drink);
+                    order.addItem(addDrink());
                     break;
                 case 3:
-                    ChipsAndSalsa chips = addChipsAndSalsa();
-                    order.addItem(chips);
+                    order.addItem(addChipsAndSalsa());
                     break;
                 case 4:
                     checkout(order);
                     ordering = false;
+                    break;
+                case 5:
+                    removeItem(order);
                     break;
                 case 0:
                     System.out.println("Order canceled.");
@@ -90,7 +93,7 @@ public class UserInterface {
         Tacos taco = new Tacos(size, tortilla);
 
         addToppingsFromCategory(taco, ToppingsCategory.MEAT, "Meat");
-        addToppingsFromCategory(taco, ToppingsCategory.CHEESE, "Premium Topping (Cheese)");
+        addToppingsFromCategory(taco, ToppingsCategory.CHEESE, "Premium Topping: Cheese");
         addToppingsFromCategory(taco, ToppingsCategory.REGULAR, "Other Toppings");
         addToppingsFromCategory(taco, ToppingsCategory.SAUCE, "Sauces");
 
@@ -137,7 +140,7 @@ public class UserInterface {
                 taco.addTopping(selected, extra);
                 System.out.println("Added " + (extra ? "extra " : "") + selected.getDisplayName());
             } else {
-                System.out.println("Please choose a valid option.");
+                System.out.println("Invalid option.");
             }
         }
     }
@@ -159,8 +162,35 @@ public class UserInterface {
         return new ChipsAndSalsa(salsaType);
     }
 
+    private void removeItem(Order order) {
+        System.out.println("\n=== Remove Item ===");
+
+        if (order.getItemCount() == 0) {
+            System.out.println("There are no items to remove.");
+            return;
+        }
+
+        System.out.println(order);
+
+        int itemNumber = readInt("Enter item number to remove, or 0 to cancel: ");
+
+        if (itemNumber == 0) {
+            System.out.println("Remove canceled.");
+        } else if (order.removeItem(itemNumber - 1)) {
+            System.out.println("Item removed.");
+        } else {
+            System.out.println("Invalid item number.");
+        }
+    }
+
     private void checkout(Order order) {
         System.out.println("\n=== Checkout ===");
+
+        if (order.getItemCount() == 0) {
+            System.out.println("You cannot checkout with an empty order.");
+            return;
+        }
+
         System.out.println(order);
 
         boolean confirm = readYesNo("Confirm order and create receipt? (y/n): ");
@@ -176,37 +206,58 @@ public class UserInterface {
     private TacoSize chooseTacoSize() {
         TacoSize[] sizes = TacoSize.values();
 
-        System.out.println("\nItem size:");
-        for (int i = 0; i < sizes.length; i++) {
-            System.out.println((i + 1) + ") " + sizes[i].getDisplayName());
-        }
+        while (true) {
+            System.out.println("\nItem size:");
+            for (int i = 0; i < sizes.length; i++) {
+                System.out.println((i + 1) + ") " + sizes[i].getDisplayName());
+            }
 
-        int choice = readInt("Choose size: ");
-        return sizes[choice - 1];
+            int choice = readInt("Choose size: ");
+
+            if (choice >= 1 && choice <= sizes.length) {
+                return sizes[choice - 1];
+            }
+
+            System.out.println("Invalid option.");
+        }
     }
 
     private Tortilla chooseTortilla() {
         Tortilla[] tortillas = Tortilla.values();
 
-        System.out.println("\nSelect your shell:");
-        for (int i = 0; i < tortillas.length; i++) {
-            System.out.println((i + 1) + ") " + tortillas[i].getDisplayName());
-        }
+        while (true) {
+            System.out.println("\nSelect your shell:");
+            for (int i = 0; i < tortillas.length; i++) {
+                System.out.println((i + 1) + ") " + tortillas[i].getDisplayName());
+            }
 
-        int choice = readInt("Choose shell: ");
-        return tortillas[choice - 1];
+            int choice = readInt("Choose shell: ");
+
+            if (choice >= 1 && choice <= tortillas.length) {
+                return tortillas[choice - 1];
+            }
+
+            System.out.println("Invalid option.");
+        }
     }
 
     private DrinkSize chooseDrinkSize() {
         DrinkSize[] sizes = DrinkSize.values();
 
-        System.out.println("\nDrink size:");
-        for (int i = 0; i < sizes.length; i++) {
-            System.out.println((i + 1) + ") " + sizes[i].getDisplayName());
-        }
+        while (true) {
+            System.out.println("\nDrink size:");
+            for (int i = 0; i < sizes.length; i++) {
+                System.out.println((i + 1) + ") " + sizes[i].getDisplayName());
+            }
 
-        int choice = readInt("Choose size: ");
-        return sizes[choice - 1];
+            int choice = readInt("Choose size: ");
+
+            if (choice >= 1 && choice <= sizes.length) {
+                return sizes[choice - 1];
+            }
+
+            System.out.println("Invalid option.");
+        }
     }
 
     private int readInt(String prompt) {
